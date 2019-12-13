@@ -1,0 +1,7 @@
+<launch>
+  <!-- load configuration -->
+  <rosparam command="load" file="$(find io_controllers)/io_controllers.yaml" />
+
+  <!-- spawn controller -->
+  <node name="digital_output_command_controller_spawner" pkg="controller_manager" type="spawner" output="screen" args="digital_output_command_controller" />
+</launch>

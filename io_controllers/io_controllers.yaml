@@ -1,0 +1,3 @@
+io_controllers:
+  type: io_controllers/DigitalOutputCommandController
+  publish_rate: 50

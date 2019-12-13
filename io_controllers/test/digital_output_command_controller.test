@@ -1,0 +1,4 @@
+<launch>
+
+  <test test-name="digital_output_command_controller_test" pkg="io_controllers" type="digital_output_command_controller_test"/>
+</launch>

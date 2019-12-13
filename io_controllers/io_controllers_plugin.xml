@@ -1,0 +1,17 @@
+<library path="lib/libio_controllers">
+
+  <class name="io_controllers/DigitalOutputCommandController"
+         type="io_controllers::DigitalOutputCommandController"
+         base_class_type="controller_interface::ControllerBase">
+    <description>
+      The DigitalOutputCommandController controlls digital outputs.
+    </description>
+  </class>
+  <class name="io_controllers/DigitalInputStateController"
+         type="io_controllers::DigitalInputStateController"
+         base_class_type="controller_interface::ControllerBase">
+    <description>
+      The DigitalInputStateController propagates state of digital inputs.
+    </description>
+  </class>
+</library>
