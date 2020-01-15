@@ -63,7 +63,7 @@ bool DigitalInputStateController::init(hardware_state_command_interfaces::Digita
   {
     state_topic = "digital_inputs/state";
   }
-  realtime_pub_.reset(new realtime_tools::RealtimePublisher<std_msgs::ByteMultiArray>(controller_nh_, state_topic, 4));
+  realtime_pub_.reset(new realtime_tools::RealtimePublisher<std_msgs::ByteMultiArray>(controller_nh_, state_topic, 1));
 
   // ROS API: Subscribed topics
   // output_command_sub_ = controller_nh_.subscribe("command", 1, &DigitalOutputCommandController::outputCommandCB,
