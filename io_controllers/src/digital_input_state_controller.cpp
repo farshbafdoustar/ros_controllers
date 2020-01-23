@@ -93,6 +93,12 @@ bool DigitalInputStateController::init(hardware_state_command_interfaces::Digita
     }
   }
 
+  {
+    realtime_pub_->lock();
+    realtime_pub_->msg_.data.resize(num_hw_inputs_);
+    realtime_pub_->unlock();
+  }
+
   return true;
 }
 
@@ -110,8 +116,10 @@ void DigitalInputStateController::starting(const ros::Time& time)
     // realtime_pub_->msg_.header.stamp = time;
     for (unsigned i = 0; i < num_hw_inputs_; i++)
     {
-      realtime_pub_->msg_.data.push_back(digital_input_state_[i].getState() ==
-                                         hardware_state_command_interfaces::DigitalIOStateHandle::State::HIGH);
+//      realtime_pub_->msg_.data.push_back(digital_input_state_[i].getState() ==
+//                                         hardware_state_command_interfaces::DigitalIOStateHandle::State::HIGH);
+        realtime_pub_->msg_.data[i] =
+            digital_input_state_[i].getState() == hardware_state_command_interfaces::DigitalIOStateHandle::State::HIGH;
     }
     realtime_pub_->unlockAndPublish();
   }
