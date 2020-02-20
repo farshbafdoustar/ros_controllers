@@ -35,7 +35,7 @@ bool AnalogInputStateController::init(hardware_state_command_interfaces::AnalogI
   num_hw_inputs_ = analog_input_names_.size();
   for (unsigned i = 0; i < num_hw_inputs_; i++)
   {
-    ROS_INFO("Got DI %s", analog_input_names_[i].c_str());
+    ROS_INFO("Got AI %s", analog_input_names_[i].c_str());
   }
 
   // realtime publisher
@@ -50,7 +50,7 @@ bool AnalogInputStateController::init(hardware_state_command_interfaces::AnalogI
   // get AIs and allocate message
   for (unsigned i = 0; i < num_hw_inputs_; i++)
   {
-    ROS_INFO_STREAM("registered to digital input handle: " << analog_input_names_[i]);
+    ROS_INFO_STREAM("registered to analog input handle: " << analog_input_names_[i]);
     analog_input_state_.push_back(hw->getHandle(analog_input_names_[i]));
   }
 
