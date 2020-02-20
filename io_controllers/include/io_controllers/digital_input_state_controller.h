@@ -2,14 +2,7 @@
 #define IO_CONTROLLERS_DIGITAL_INPUT_STATE_CONTROLLER
 
 // C++ standard
-#include <cassert>
-#include <stdexcept>
-#include <string>
 #include <memory>
-
-// Boost
-#include <boost/shared_ptr.hpp>
-#include <boost/dynamic_bitset.hpp>
 
 // ROS
 #include <controller_interface/controller.h>
@@ -17,7 +10,7 @@
 #include <realtime_tools/realtime_publisher.h>
 #include <std_msgs/ByteMultiArray.h>
 
-#include <hardware_state_command_interfaces/digital_io_command_interface.h>
+#include <hardware_state_command_interfaces/digital_io_state_interface.h>
 
 namespace io_controllers
 {
@@ -54,4 +47,4 @@ protected:
 
 }  // namespace io_controllers
 
-#endif  // IO_CONTROLLERS_DIGITAL_OUTPUT_COMMAND_CONTROLLER
+#endif  // IO_CONTROLLERS_DIGITAL_INPUT_STATE_CONTROLLER
