@@ -1,16 +1,16 @@
-#include <algorithm>
-#include <cstddef>
-
 #include "io_controllers/digital_input_state_controller.h"
+
 #include <pluginlib/class_list_macros.h>
 
 namespace io_controllers
 {
 bool DigitalInputStateController::init(hardware_state_command_interfaces::DigitalInputStateInterface* hw,
                                        ros::NodeHandle& root_nh, ros::NodeHandle& controller_nh)
+
 {
   // Cache controller node handle
   controller_nh_ = controller_nh;
+
   // Controller name
   name_ = getLeafNamespace(controller_nh_);
 
@@ -20,6 +20,7 @@ bool DigitalInputStateController::init(hardware_state_command_interfaces::Digita
     ROS_ERROR("Parameter 'publish_rate' not set");
     return false;
   }
+
   if (!controller_nh_.getParam("digital_inputs", digital_input_names_))
   {
     ROS_ERROR("Parameter 'digital_inputs' not set");
@@ -31,31 +32,11 @@ bool DigitalInputStateController::init(hardware_state_command_interfaces::Digita
     ROS_INFO("Controller is composte controller");
   }
 
-  //    // State publish rate
-  //    double state_publish_rate = 50.0;
-  //    controller_nh_.getParam("state_publish_rate", state_publish_rate);
-  //    ROS_DEBUG_STREAM_NAMED(name_, "Controller state will be published at " << state_publish_rate << "Hz.");
-  //    state_publisher_period_ = ros::Duration(1.0 / state_publish_rate);
-
-  // TODO: get start state from the YAML file
-  // get DigitalOutput name from the parameter server
-  //  std::vector<std::string> digital_output_names;
-
-  //  if (!controller_nh_.getParam("digital_outputs", digital_output_names))
-  //  {
-  //    ROS_ERROR("Could not find digital output name");
-  //    return false;
-  //  }
   num_hw_inputs_ = digital_input_names_.size();
   for (unsigned i = 0; i < num_hw_inputs_; i++)
-    ROS_DEBUG("Got DI %s", digital_input_names_[i].c_str());
-
-  //  // get publishing period
-  //  if (!controller_nh.getParam("publish_rate", publish_rate_))
-  //  {
-  //    ROS_ERROR("Parameter 'publish_rate' not set");
-  //    return false;
-  //  }
+  {
+    ROS_INFO("Got DI %s", digital_input_names_[i].c_str());
+  }
 
   // realtime publisher
   std::string state_topic = "state";
@@ -65,11 +46,7 @@ bool DigitalInputStateController::init(hardware_state_command_interfaces::Digita
   }
   realtime_pub_.reset(new realtime_tools::RealtimePublisher<std_msgs::ByteMultiArray>(controller_nh_, state_topic, 1));
 
-  // ROS API: Subscribed topics
-  // output_command_sub_ = controller_nh_.subscribe("command", 1, &DigitalOutputCommandController::outputCommandCB,
-  // this);
-
-  // get joints and allocate message
+  // get DIs and allocate message
   for (unsigned i = 0; i < num_hw_inputs_; i++)
   {
     ROS_INFO_STREAM("registered to digital input handle: " << digital_input_names_[i]);
@@ -104,22 +81,16 @@ bool DigitalInputStateController::init(hardware_state_command_interfaces::Digita
 
 void DigitalInputStateController::starting(const ros::Time& time)
 {
-  // initialize time
-  last_publish_time_ = time;
   if (realtime_pub_->trylock())
   {
     // initialize time
     last_publish_time_ = time;
-    // populate joint state message:
-    // - fill only joints that are present in the JointStateInterface, i.e. indices [0, num_hw_joints_)
-    // - leave unchanged extra joints, which have static values, i.e. indices from num_hw_joints_ onwards
-    // realtime_pub_->msg_.header.stamp = time;
+
+    // TODO::define custome type to heave time stamp wrealtime_pub_->msg_.header.stamp = time;
     for (unsigned i = 0; i < num_hw_inputs_; i++)
     {
-//      realtime_pub_->msg_.data.push_back(digital_input_state_[i].getState() ==
-//                                         hardware_state_command_interfaces::DigitalIOStateHandle::State::HIGH);
-        realtime_pub_->msg_.data[i] =
-            digital_input_state_[i].getState() == hardware_state_command_interfaces::DigitalIOStateHandle::State::HIGH;
+      realtime_pub_->msg_.data[i] =
+          digital_input_state_[i].getState() == hardware_state_command_interfaces::DigitalIOStateHandle::State::HIGH;
     }
     realtime_pub_->unlockAndPublish();
   }
@@ -136,10 +107,7 @@ void DigitalInputStateController::update(const ros::Time& time, const ros::Durat
       // we're actually publishing, so increment time
       last_publish_time_ = last_publish_time_ + ros::Duration(1.0 / publish_rate_);
 
-      // populate joint state message:
-      // - fill only joints that are present in the JointStateInterface, i.e. indices [0, num_hw_joints_)
-      // - leave unchanged extra joints, which have static values, i.e. indices from num_hw_joints_ onwards
-      // realtime_pub_->msg_.header.stamp = time;
+      // TODO::define custome type to heave time stamp wrealtime_pub_->msg_.header.stamp = time;
       for (unsigned i = 0; i < num_hw_inputs_; i++)
       {
         realtime_pub_->msg_.data[i] =

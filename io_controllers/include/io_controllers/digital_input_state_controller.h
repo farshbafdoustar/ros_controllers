@@ -12,14 +12,10 @@
 #include <boost/dynamic_bitset.hpp>
 
 // ROS
-#include <ros/node_handle.h>
-#include <std_msgs/ByteMultiArray.h>
-
-// realtime_tools
-#include <realtime_tools/realtime_publisher.h>
-
-// ros_controls
 #include <controller_interface/controller.h>
+#include <ros/node_handle.h>
+#include <realtime_tools/realtime_publisher.h>
+#include <std_msgs/ByteMultiArray.h>
 
 #include <hardware_state_command_interfaces/digital_io_command_interface.h>
 
@@ -44,28 +40,15 @@ public:
 protected:
   std::string getLeafNamespace(const ros::NodeHandle& nh);
 
-  // TODO::add service to query state
-  // void outputCommandCB(const std_msgs::Bool& msg);
-
-  typedef hardware_state_command_interfaces::DigitalIOStateHandle::State State;
-  typedef std::shared_ptr<hardware_state_command_interfaces::DigitalIOStateHandle::State> StatePtr;
-
-  // TODO::Array definition
   std::vector<hardware_state_command_interfaces::DigitalIOStateHandle> digital_input_state_;
-  // hardware_state_command_interfaces::DigitalIOStateHandle digital_output_command_;
 
-  // ROS API
   ros::NodeHandle controller_nh_;
-  // ros::Subscriber output_command_sub_;
-  // TODO:: change publisher to publisher more than one DI
-  // find better typ for emulti bool values
   std::shared_ptr<realtime_tools::RealtimePublisher<std_msgs::ByteMultiArray>> realtime_pub_;
   ros::Time last_publish_time_;
   double publish_rate_;
   unsigned int num_hw_inputs_;
   std::string name_;  ///< Controller name.
   std::vector<std::string> digital_input_names_;
-
   bool is_inside_composite_controller = false;
 };
 
