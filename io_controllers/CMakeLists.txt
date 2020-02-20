@@ -17,10 +17,12 @@ catkin_package(
   )
 
 include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
+
 add_library(io_controllers
-    src/digital_output_command_controller.cpp
+    src/analog_input_state_controller.cpp
     src/digital_input_state_controller.cpp
-    )
+    src/digital_output_command_controller.cpp
+)
 target_link_libraries(io_controllers ${catkin_LIBRARIES})
 
 if(CATKIN_ENABLE_TESTING)
@@ -44,6 +46,6 @@ install(TARGETS ${PROJECT_NAME}
   )
 
 install(FILES io_controllers_plugin.xml
-              joint_state_controller.yaml
-              joint_state_controller.launch
+              io_controllers.yaml
+              io_controllers.launch
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION})

@@ -14,4 +14,11 @@
       The DigitalInputStateController propagates state of digital inputs.
     </description>
   </class>
+  <class name="io_controllers/AnalogInputStateController"
+         type="io_controllers::AnalogInputStateController"
+         base_class_type="controller_interface::ControllerBase">
+    <description>
+      The AnalofInputStateController propagates state of analog inputs.
+    </description>
+  </class>
 </library>
